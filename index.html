@@ -8,24 +8,115 @@
     <title>Number Guessing Game</title>
   </head>
   <body>
+    <div class="overlay"></div>
     <div class="container">
       <nav>
-        <button><ion-icon name="help-circle"></ion-icon></button>
         <button><ion-icon name="reload"></ion-icon></button>
-        <h1>COMBINATION</h1>
+        <h1>
+          COMBINATION<button>
+            <ion-icon name="help-circle-outline"></ion-icon>
+          </button>
+        </h1>
         <button><ion-icon name="settings"></ion-icon></button>
       </nav>
       <div class="content">
-        <section class="help"></section>
         <input type="tel" required />
+        <div class="grid"></div>
       </div>
       <div class="menu" aria-hidden="true">
         <div class="top">
           <h2>You Won</h2>
-          <ion-icon name="close-circle-outline"></ion-icon>
+          <button>
+            <ion-icon name="close-circle-outline"></ion-icon>
+          </button>
         </div>
-        <div class="answer">0568</div>
+        <div class="answer">
+          <div class="secondary">The answer was</div>
+          <div class="ans">1234</div>
+        </div>
+        <button>
+          <ion-icon name="reload"></ion-icon>
+          Retry
+        </button>
       </div>
+      <section class="settings" aria-hidden="true">
+        <div class="top">
+          <a href="https://github.com/jonestly-source/Combination.git">
+            <ion-icon name="logo-github"></ion-icon>
+          </a>
+          <h2>Settings</h2>
+          <button>
+            <ion-icon name="close-circle-outline"></ion-icon>
+          </button>
+        </div>
+        <div class="item length">
+          <h4>Length</h4>
+          <div class="selector">
+            <button>
+              <ion-icon name="remove-circle-outline"></ion-icon>
+            </button>
+            <div class="value">4</div>
+            <button>
+              <ion-icon name="add-circle-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+        <div class="item tries">
+          <h4>Tries</h4>
+          <div class="selector">
+            <button>
+              <ion-icon name="remove-circle-outline"></ion-icon>
+            </button>
+            <div class="value">10</div>
+            <button>
+              <ion-icon name="add-circle-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+        <div class="item filter">
+          <h4>Colorblind Filter</h4>
+          <div class="switch-wrapper">
+            <input type="checkbox" class="switch" />
+          </div>
+        </div>
+        <div class="item mode">
+          <h4>Hard Mode</h4>
+          <div class="switch-wrapper">
+            <input type="checkbox" class="switch" />
+          </div>
+        </div>
+        <div class="footer">
+          <h5>Made By:</h5>
+          <a href="https://github.com/jonestly-source/" target="_blank"
+            >Semicolon;</a
+          >
+        </div>
+      </section>
+      <section class="help" aria-hidden="false">
+        <div class="top">
+          <h2>HOW TO PLAY</h2>
+          <button><ion-icon name="close-circle-outline"></ion-icon></button>
+        </div>
+        <div class="info">Guess the Combination in 6-12 Tries.</div>
+        <div class="examples">
+          <h3>Example</h3>
+          <div class="row-examples">
+            <div class="item">0</div>
+            <div class="item">1</div>
+            <div class="item">2</div>
+            <div class="item">3</div>
+          </div>
+          <div>
+            <div class="circle wrong">2</div>
+            Yellow circles will show how many numbers are correct but not in
+            proper position
+          </div>
+          <div>
+            <div class="circle correct">1</div>
+            Green circles will show how many numbers are in proper position
+          </div>
+        </div>
+      </section>
     </div>
     <script
       type="module"

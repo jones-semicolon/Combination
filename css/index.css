@@ -5,10 +5,15 @@
   padding: 0;
   box-sizing: border-box;
   transition: background 500ms;
+  /*outline: 1px solid;*/
 }
 
 body {
   --bg: hsl(0 0% 98%);
+  --filtered-wrong: hsl(180 80% 45%);
+  --filtered-correct: hsl(40 80% 45%);
+  --wrong: hsl(60 80% 45%);
+  --correct: hsl(120 45% 55%);
   height: 100vh;
   height: 100dvh;
   background: var(--bg);
@@ -16,6 +21,8 @@ body {
   justify-content: center;
   text-align: center;
   font-family: helvetica, sans;
+  overflow: hidden;
+  user-select: none;
 }
 
 button {
@@ -40,21 +47,22 @@ button:active ion-icon {
   overflow-y: auto;
 }
 
-section.help {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  background-color: hsl(0 0% 0% / 0.2);
-  inset: 0;
-  z-index: 2;
-  display: none;
-}
-
 nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
   text-transform: uppercase;
+}
+
+nav > h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 > button {
+  color: hsl(0 0% 60%);
+  font-size: 1rem;
 }
 
 ion-icon {
@@ -78,7 +86,7 @@ ion-icon {
   text-align: start;
 }
 
-.content {
+.content > .grid {
   --gap: 0.2rem;
   display: flex;
   flex-flow: column nowrap;
@@ -87,7 +95,7 @@ ion-icon {
   background-color: var(--bg);
 }
 
-input {
+input[type="tel"] {
   all: unset;
   inset: 0;
   height: 100%;
@@ -101,7 +109,9 @@ input::selection {
   background-color: transparent;
 }
 
-.row {
+.row,
+.row-examples {
+  --dis: grid;
   display: grid;
   grid-auto-columns: repeat(4);
   grid-auto-flow: column;
@@ -110,12 +120,14 @@ input::selection {
 }
 
 .row::after,
-.row::before {
+.row::before,
+.row-examples:after,
+.row-examples:before {
   content: var(--unpositioned);
   position: absolute;
   width: 1.5rem;
   aspect-ratio: 1;
-  background-color: hsl(40 80% 55%);
+  background-color: var(--wrong);
   border-radius: 50%;
   z-index: 1;
   left: -0.75rem;
@@ -126,14 +138,18 @@ input::selection {
   opacity: 0.8;
 }
 
-.row::before {
+.row::before,
+.row-examples:before {
   content: var(--positioned);
   right: -0.75rem;
   left: auto;
-  background-color: hsl(120 45% 55%);
+  background-color: var(--correct);
+  display: var(--dis);
+  place-items: center;
 }
 
-.cell {
+.cell,
+.row-examples > .item {
   --bg: hsl(0 0% 90%);
   aspect-ratio: 4 / 3;
   background-color: var(--bg);
@@ -160,7 +176,8 @@ input::selection {
   position: absolute;
 }
 
-.menu {
+.menu,
+section {
   position: absolute;
   inset: 50%;
   translate: -50% -50%;
@@ -170,28 +187,207 @@ input::selection {
   border-radius: 1.5rem;
   box-shadow: 0 0 3px hsl(0 0% 0% / 0.6);
   padding: 1rem;
-  display: flex;
+  display: none;
   flex-flow: column nowrap;
+  z-index: 999;
 }
 
-.menu[aria-hidden="true"] {
-  display: none;
+:is(.menu, section)[aria-hidden="false"] {
+  display: flex;
 }
 
 .top {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 .top > h2 {
   margin-inline: auto;
 }
 
+.menu > .top > button {
+  position: absolute;
+  right: 0;
+}
+
 .answer {
   flex-grow: 1;
-  font-size: 2.5rem;
   height: 100%;
   display: grid;
   place-items: center;
+  margin-block: 20px;
+}
+
+.answer > .ans {
+  font-size: 2.5rem;
+}
+
+.answer > .secondary {
+  font-size: 1rem;
+  color: hsl(0 0% 60%);
+}
+
+.menu > button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  gap: 0.5rem;
+}
+
+.overlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  inset: 0;
+  background-color: hsl(0 0% 2% / 0.4);
+  z-index: 20;
+  display: none;
+}
+
+:has([aria-hidden="false"]) .overlay {
+  display: block;
+}
+
+.settings {
+  gap: 1rem;
+}
+
+.settings > .top {
+  margin-bottom: 2rem;
+}
+
+.item {
+  padding-inline: 1rem;
+}
+
+.item,
+.item > * {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item > .selector {
+  gap: 0.5rem;
+}
+
+input[type="checkbox"].switch {
+  font-size: 30px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 2em;
+  height: 1em;
+  background: #ddd;
+  border-radius: 2em;
+  position: relative;
+  cursor: pointer;
+  /*outline: none;*/
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+input[type="checkbox"].switch:checked {
+  background: var(--correct);
+}
+
+:has(.filter input[type="checkbox"].switch:checked) .row::after {
+  background-color: var(--filtered-wrong);
+}
+
+:has(.filter input[type="checkbox"].switch:checked) .row::before,
+:has(.filter input[type="checkbox"].switch:checked)
+  input[type="checkbox"].switch:checked {
+  background-color: var(--filtered-correct);
+}
+
+input[type="checkbox"].switch:after {
+  position: absolute;
+  content: "";
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  background: #fff;
+  -webkit-box-shadow: 0 0 0.25em rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0.25em rgba(0, 0, 0, 0.3);
+  -webkit-transform: scale(0.7);
+  transform: scale(0.7);
+  left: 0;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+input[type="checkbox"].switch:checked:after {
+  left: calc(100% - 1em);
+}
+
+.footer {
+  margin-top: 2rem;
+}
+
+.footer > h5 {
+  color: hsl(0 0% 70%);
+}
+
+.footer > a {
+  text-decoration: none;
+  color: hsl(0 0% 60%);
+}
+
+a {
+  all: unset;
+}
+
+button:disabled {
+  opacity: 0.4;
+}
+
+button:disabled:active ion-icon {
+  rotate: unset;
+}
+
+.help .examples {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  text-align: start;
+  gap: 1rem;
+}
+
+.help {
+  gap: 1rem;
+}
+
+.row-examples {
+  --positioned: "1";
+  --unpositioned: "2";
+  max-width: 70%;
+  align-self: center;
+  gap: 0.2rem;
+}
+
+.row-examples:before {
+  right: -1rem;
+}
+
+.examples > div:has(.circle) {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.examples .circle {
+  height: 1.5rem;
+  aspect-ratio: 1;
+  background-color: var(--wrong);
+  border-radius: 50%;
+  opacity: 0.8;
+  display: grid;
+  place-items: center;
+}
+
+.circle.correct {
+  background-color: var(--correct);
 }
