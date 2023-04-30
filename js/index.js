@@ -191,7 +191,7 @@ if (col <= 6) {
   tries.querySelector(
     'button:has([name="remove-circle-outline"])'
   ).disabled = true;
-} else if (col >= 10) {
+} else if (col >= 12) {
   tries.querySelector(
     'button:has([name="add-circle-outline"])'
   ).disabled = true;
