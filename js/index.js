@@ -172,19 +172,8 @@ const modeBtn = document.querySelector(".settings > .mode input");
 
 modeBtn.checked = hardMode;
 
-rows.forEach((row) => {
-  hardMode
-    ? row.style.setProperty("--dis", "none")
-    : row.style.setProperty("--dis", "grid");
-});
-
 modeBtn.addEventListener("click", () => {
   hardMode = !hardMode;
-  rows.forEach((row) => {
-    hardMode
-      ? row.style.setProperty("--dis", "none")
-      : row.style.setProperty("--dis", "grid");
-  });
 });
 
 if (col <= 6) {

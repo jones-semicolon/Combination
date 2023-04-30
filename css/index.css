@@ -148,6 +148,10 @@ input::selection {
   place-items: center;
 }
 
+:has(.mode input[type="checkbox"]:checked) .row {
+  --dis: none;
+}
+
 .cell,
 .row-examples > .item {
   --bg: hsl(0 0% 90%);
@@ -266,7 +270,7 @@ section {
 }
 
 .mode > div > p {
-  font-size: .8rem;
+  font-size: 0.8rem;
   color: hsl(0 0% 77%);
 }
 
@@ -346,6 +350,7 @@ input[type="checkbox"].switch:checked:after {
 .footer > a {
   text-decoration: none;
   color: hsl(0 0% 60%);
+  font-size: 0.8rem;
 }
 
 a {
