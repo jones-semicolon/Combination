@@ -259,6 +259,17 @@ section {
   margin-bottom: 2rem;
 }
 
+.settings .mode > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.mode > div > p {
+  font-size: .8rem;
+  color: hsl(0 0% 77%);
+}
+
 .item {
   padding-inline: 1rem;
 }
